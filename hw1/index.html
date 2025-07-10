@@ -1,112 +1,433 @@
 <html>
-	<head>
-		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=default'></script>
-		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
-		<style>
-			h1 {
-				text-align: center;
-			}
+<head>
+	<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=default'></script>
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+	<style>
+		h1 {
+			text-align: center;
+		}
 
+		.container {
+			margin: 0 auto;
+			padding: 60px 20%;
+		}
+
+		figure {
+			text-align: center;
+		}
+
+		img {
+			display: inline-block;
+		}
+
+		body {
+			font-family: 'Inter', sans-serif;
+		}
+
+		code {
+			background-color: #f5f5f5;
+			padding: 2px 4px;
+			border-radius: 4px;
+			font-family: monospace;
+		}
+
+		pre code {
+			display: block;
+			padding: 10px 20px;
+			overflow-x: auto;
+		}
+
+		summary {
+			cursor: pointer;
+			padding: 8px;
+			background-color: #f0f0f0;
+			border: 1px solid #ccc;
+			border-radius: 6px;
+			padding-left: 12px;
+			position: relative;
+		}
+
+		details {
+			margin-bottom: 12px;
+		}
+
+		.question-box {
+			background-color: #f9f9f9;
+			border-left: 4px solid #444;
+			padding: 2px 16px;
+			margin: 1em 0;
+			border-radius: 6px;
+		}
+
+		@media print {
+            /* Hide file URLs, tooltips, etc. */
+            a[href^="file://"],
+            .MathJax_Message, /* MathJax loading box */
+            .mjx-chtml,
+            .MathJax {
+                display: none !important;
+            }
+
+            /* Optional: Hide link hrefs from printing (like index.html underlined) */
+            a::after {
+                content: "" !important;
+            }
+
+			@page {
+				margin: 1in 1in;
+			}
 			.container {
 				margin: 0 auto;
-				padding: 60px 20%;
+				padding: 0 0;
 			}
-
-			figure {
-				text-align: center;
-			}
-
-			img {
-				display: inline-block;
-			}
-
-			body {
-				font-family: 'Inter', sans-serif;
-			}
-		</style>
-	</head>
+		}
+	</style>
+</head>
 	<body>
 		<div class="container">
-		<h1>CS184/284A Spring 2025 Homework 1 Write-Up</h1>
-		<div style="text-align: center;">Names: </div>
+			<h1>CS184 Summer 2025 Homework 1 Write-Up</h1>
+			<div style="text-align: center;">Walter J. Cheng & Crystal J. Cheng</div>
 
-		<br>
+			<br>
 
-		Link to webpage: (TODO) <a href="https://cs184.eecs.berkeley.edu/sp25">cs184.eecs.berkeley.edu/sp25</a>
-		
-		<br>
+			Link to webpage: (TODO) <a href="https://cs184.eecs.berkeley.edu/sp25">cs184.eecs.berkeley.edu/sp25</a>
 
-		Link to GitHub repository: (TODO) <a href="https://cs184.eecs.berkeley.edu/sp25">cs184.eecs.berkeley.edu/sp25</a>
+			<br>
 
-		<figure>
-			<img src="lion.jpg" alt="Lion" style="width:50%"/>
-			<figcaption>You can add images with captions!</figcaption>
-		</figure>
+			GitHub Repository:<a href="https://github.com/cal-cs184/hw-rasterizer-jcheng">https://github.com/cal-cs184/hw-rasterizer-jcheng</a>
 
-		<!--
-		We've already added one heading per task, to make your write-up as navigable when grading. Please fit your write-up within these sections!
-		-->
 
-		<h2>Overview</h2>
-		Give a high-level overview of what you implemented in this homework. Think about what you've built as a whole. Share your thoughts on what interesting things you've learned from completing the homework.
 
-		<h2>Task 1: Drawing Single-Color Triangles</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+			<!--
+	We've already added one heading per task, to make your write-up as navigable when grading. Please fit your write-up within these sections!
+	-->
 
-		<p>Here is an example 2x2 gridlike structure using an HTML table. Each <b>tr</b> is a row and each <b>td</b> is a column in that row. You might find this useful for framing and showing your result images in an organized fashion.</p>
-		<div style="display: flex; flex-direction: column; align-items: center;">
-			<table style="width: 100%; text-align: center; border-collapse: collapse;">
-			  <tr>
+			<h2>Overview</h2>
+			<!-- Give a high-level overview of what you implemented in this homework. Think about what you've built as a whole.
+	Share your thoughts on what interesting things you've learned from completing the homework. -->
+			<p>
+				In Homework 1, we built working functions for triangle rasterization that utilize supersampling for more accurate results, SVG transformations,
+				barycentric coordinates, and both pixel sampling for texture mapping and level sampling using mipmap levels.
+				The most interesting thing Crystal learned is how barycentric coordinates allow the interpolation of values smoothly inside a triangle with color specifically.
+				This reminded me of color theory and spectral hues commonly used in digital design color gradient palettes.
+				By using barycentric coordinates to interpolate three vertex colors that we have often defined in class as red, green, and blue, we have recreated gradient tools that mix RGB in
+				software such as Photoshop. Dragging around the color is adjacent to moving the point P inside a triangle in barycentric coordinates and shows how we can smoothly move along a continuous color spectrum.
+				Every pixel can be treated as a weighted average of the colors at the endpoints or corners, just like the rasterizer we created in Task 3.
+			</p>
+
+			<h2>Task 1: Drawing Single-Color Triangles</h2>
+			<hr />
+			<p>
+				Rasterizing a triangle is the process of taking a continuous triangle (defined by 3 vertices in some space,
+				for Homework 1 this is a 2D plane of some width and height) and writing its shape to a screen.
+			</p>
+			<p>
+				Since most computer graphics are shown using raster displays, meaning the display is some array of pixels,
+				this means we need to pick a set of pixels to color that best matches the actual triangle.
+			</p>
+			<p>
+				For this task we're keeping it simple: take the center of each pixel; if the point lands within the triangle, color it in.
+				If not, don't.
+			</p>
+
+			<figure>
+				<img src="images/single-pixel-rast.png" alt="trianglesampling1" style="width:40%" />
+				<figcaption style="margin-top: 10px">Single-pixel Triangle Rasterization <i>(Lecture 2 Slides, Ren Ng)</i></figcaption>
+			</figure>
+
+			<h3>Our Rasterization Algorithm</h3>
+			<p>
+				Given floats <code>x0, y0, x1, y1, x2, y2</code> and a Color object <code>color</code>, this is how we rasterize it:
+			</p>
+
+			<details>
+				<summary><strong>1. Get the Bounding Box</strong></summary>
+				<p>
+					The top-left and bottom-right corners of the bounding box around a triangle are simply the minimum and maximum x and y values
+					out of the three vertices:
+				</p>
+				<pre><code>
+// bounding box coordinates
+Vector2D boxmin(floor(min({ x0, x1, x2 })), floor(min({ y0, y1, y2 })));
+Vector2D boxmax(floor(max({ x0, x1, x2 })), floor(max({ y0, y1, y2 })));
+				</code></pre>
+			</details>
+
+			<details>
+				<summary><strong>2. Force CCW Winding Order & Vectorize Everything</strong></summary>
+				<p>
+					First thing we'll do is check that the vertices were passed in CCW order; this is important for the <code>inside()</code> function.
+					As was shown in Discussion 2, winding order can be checked by picking a vertex to be the origin and taking the cross product of the
+					vectors formed by the other 2 vertices:
+				</p>
+				<pre><code>
+Vector2D v1(x1 - x0, y1 - y0);
+Vector2D v2(x2 - x0, y2 - y0);
+
+// store vectors around triangle CCW (using cross product)
+if (cross(v1, v2) < 0) {
+	float tempX = x1;
+	float tempY = y1;
+	x1 = x2;
+	y1 = y2;
+	x2 = tempX;
+	y2 = tempY;
+}
+				</code></pre>
+				<p>
+					Since these are 2D vectors, their cross product will be a scalar, which will tell us the winding direction:
+					If it's negative (CW winding order) we want to switch the points.
+				</p>
+				<p>
+					For convenience we compute vectors representing the edge of the triangles (see below for <code>inside()</code>).
+				</p>
+				<pre><code>
+array<Vector2D, 6> edges = {
+	Vector2D(x1 - x0, y1 - y0),
+	Vector2D(x0, y0),
+	Vector2D(x2 - x1, y2 - y1),
+	Vector2D(x1, y1),
+	Vector2D(x0 - x2, y0 - y2),
+	Vector2D(x2, y2),
+};
+				</code></pre>
+			</details>
+
+			<details>
+				<summary><strong>3. Iterate Over Pixels & Check If Inside Triangle</strong></summary>
+				<p>
+					We iterate over all pixels in the bounding box.
+				</p>
+				<div class="question-box">
+					<p>
+						<strong>How is your algorithm no worse than one that checks each sample within the bounding box of the triangle?</strong>
+					</p>
+				</div>
+
+				<p>
+					Easy: our algorithm <em>is</em> the one that checks each sample within the bounding box of the triangle!
+				</p>
+				<pre><code>
+for (int x = boxmin.x; x <= boxmax.x; x++) {
+	for (int y = boxmin.y; y <= boxmax.y; y++) {
+		...
+	}
+}
+				</code></pre>
+				<p>
+					Quick check to make sure we're even on the screen,
+				</p>
+				<pre><code>
+for (int x = boxmin.x; x <= boxmax.x; x++) {
+	for (int y = boxmin.y; y <= boxmax.y; y++) {
+		if (x < 0 || x >= width || y < 0 || y >= height) {
+			continue;
+		}
+		...
+	}
+}
+				</code></pre>
+				<p>
+					Then check if our pixel is inside the triangle, using the <code>inside()</code> function. If it is, then draw it.
+				</p>
+				<pre><code>
+for (int x = boxmin.x; x <= boxmax.x; x++) {
+	for (int y = boxmin.y; y <= boxmax.y; y++) {
+		if (x < 0 || x >= width || y < 0 || y >= height) {
+			continue;
+		}
+		if (inside(Vector2D(x, y), edges)) {
+			fill_pixel(x, y, color);
+		}
+	}
+}
+				</code></pre>
+			</details>
+
+			<h3>The <code>inside()</code> Function</h3>
+			<p>
+				<code>inside()</code> takes a point v, represented as a 2D vector, and an array of 2D vectors that we consider in pairs:
+				the first index gives the edge from vertices P<sub>i</sub> to P<sub>i+1</sub>, and the second gives the vertex P<sub>i</sub>.
+			</p>
+
+			<pre><code>
+bool inside(const Vector2D& v, const array<Vector2D, 6>& edges) {
+	for (int i = 0; i < edges.size(); i+=2) {
+		Vector2D T = edges.at(i);
+		Vector2D V = v - edges.at(i + 1);
+		Vector2D N(-T.y, T.x); // normal to T
+
+		if (dot(V, N) < 0) return false;
+	}
+	return true;
+}
+			</code></pre>
+			<p>
+				We consider each vertex of the triangle (the <code>for</code> loop) and construct vectors
+				<code>T</code>, <code>N</code>, and <code>V</code> as shown in the figures below. Then, the
+				dot product \(V \cdot N\) tells you if <code>V</code> is inside or outside the line. In this case,
+				if the dot product is negative, then we know it is outside. Repeat for all 3 edges and if <code>V</code>
+				is within all of them then you know you're inside the triangle.
+			</p>
+			<p>
+				<strong>Note:</strong> If the vertices were in clockwise winding order, the normal vector would be pointing
+				outside of the triangle, so we'd have to negate everything. That's why we check for winding order in step 2.
+			</p>
+
+			<div style="display: flex; flex-direction: column; align-items: center;">
+				<table style="width: 100%; text-align: center; border-collapse: collapse;">
+					<tr style="vertical-align:bottom">
+						<td style="text-align: center;">
+							<img src="images/line_inside_T.png" style="width:75%" />
+						</td>
+						<td style="text-align: center;">
+							<img src="images/line_inside_test.png" style="width:75%" />
+						</td>
+					</tr>
+				</table>
+				<figcaption style="padding-top:10px; text-align:center; width:70%">
+					Vector setup in <code>inside()</code>, and an example dot product.
+					Since point P is "inside" the triangle (one edge of it), the dot product is positive.
+					<em>(Lecture 2 Slides, Ren Ng)</em>
+				</figcaption>
+			</div>
+
+			<div class="question-box">
+				<p>
+					<strong>
+						Can you show a png screenshot of <code>basic/test4.svg</code> with the default viewing parameters and
+						with the pixel inspector centered on an interesting part of the scene?
+					</strong>
+				</p>
+			</div>
+
+			<figure>
+				<img src="images/task1_img.png" alt="task1" style="width:100%" />
+				<figcaption style="margin-top: 10px">What's that in the pixel inspector? Looks pretty interesting...</figcaption>
+			</figure>
+
+			<!--Show a png screenshot of basic/test4.svg with the default viewing parameters and with the pixel inspector centered on an interesting part of the scene.-->
+			<!--<p>Here is an example 2x2 gridlike structure using an HTML table. Each <b>tr</b> is a row and each <b>td</b> is a column in that row. You might find this useful for framing and showing your result images in an organized fashion.</p>
+	<div style="display: flex; flex-direction: column; align-items: center;">
+		<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			<tr>
 				<td style="text-align: center;">
-				  <img src="lion.jpg" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
+					<img src="images/image1.png" width="400px" />
+					<figcaption>Caption goes here.</figcaption>
 				</td>
 				<td style="text-align: center;">
-				  <img src="lion.jpg" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
+					<img src="images/image2.png" width="400px" />
+					<figcaption>Caption goes here.</figcaption>
 				</td>
-			  </tr>
-			  <tr>
+			</tr>
+			<tr>
 				<td style="text-align: center;">
-				  <img src="lion.jpg" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
+					<img src="images/image3.png" width="400px" />
+					<figcaption>Caption goes here.</figcaption>
 				</td>
 				<td style="text-align: center;">
-				  <img src="lion.jpg" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
+					<img src="images/image4.png" width="400px" />
+					<figcaption>Caption goes here.</figcaption>
 				</td>
-			  </tr>
-			</table>
-		</div>
-		
-		<h2>Task 2: Antialiasing by Supersampling</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+			</tr>
+		</table>
+	</div>-->
 
-		<h2>Task 3: Transforms</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+			<h2>Task 2: Antialiasing by Supersampling</h2>
+			<hr />
+			<p>
+				Our supersampling algorithm evaluates multiple subpixel samples per pixel instead of one center point.
+				By doing so, the triangle rasterization is improved in image quality since it reduces aliasing artifacts that often appear when sampling edges or small features.
+				We divided each pixel into a uniform grid based on the square root of the sample_rate, which modifies te resolution.
+				Then, for-loops are used to loop over each subpixel and test whether it lies within the triangle using an edge rule function.
+				Each (sx, sy) coordinate that we get in the for-loops represents a precise subpixel location within its full pixel.
+			</p>
+			<p>
+				Supersampling is extremely useful to prevent aliasing, reducing jaggies, the artifacts that appear as jagged pixelated edges when images on rendered normally.
+				Using only the center as the one sample per pixel results in harsh transitions between two pixels that could have drastically different information stored within them.
+				Supersampling obtains more data that smooths out these jaggies to blend results from multiple subpixels. The result is much closer to the real image.
+			</p>
+			<p>
+				To support supersampling, we increased the sampling resolution in the rasterization loop to run based on the square root of sample_rate.
+				Then since we increased the number of samples, we expanded the sample_buffer to hold multiple subpixel samples instead of a single color per pixel.
+				With these changes, the inside() function is applied to every subpixel location to check its location relative to the triangle edge vectors.
+			</p>
+			<p>
+				We used supersampling in our code to antialias our triangles by averaging the color coverage of the triangle for each pixel.
+				We took into account how much of pixel is being covered by the triangle to determine which subpixels will be inside or outside.
+				The end result includes blended colors that gradually change throughout pixels to give our triangle edges a smoother appearance.
+				Jaggies are much less visible as no strict binary values are given to each pixel.
+			</p>
 
-		<h2>Task 4: Barycentric coordinates</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+			<!--Show png screenshots of basic/test4.svg with the default viewing parameters and sample rates 1, 4, and 16 to compare them side-by-side.
+	Position the pixel inspector over an area that showcases the effect dramatically; for example, a very skinny triangle corner. Explain why these results are observed. -->
 
-		<h2>Task 5: "Pixel sampling" for texture mapping</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+			<h2>Task 3: Transforms</h2>
+			<!--Create an updated version of svg/transforms/robot.svg with cubeman doing something more interesting, like waving or running.
+	Feel free to change his colors or proportions to suit your creativity.
+	Save your svg file as my_robot.svg in your docs/ directory and show a png screenshot of your rendered drawing in your write-up.
+	Explain what you were trying to do with cubeman in words. -->
 
-		<h2>Task 6: "Level Sampling" with mipmaps for texture mapping</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+			<h2>Task 4: Barycentric coordinates</h2>
+			<p>
+				Barycentric coordinates are another way of describing a point within a triangle using a weighted combination of its distance from the triangle's vertices.
+				These coordinates help when interpolating values across a triangle, which in this case is over color.
+				Tasking vertices A, B, C, the point P can be written as the equation P=alpha(A) + (beta)B + (gamma)C.
+			</p>
+			<!-- [insert tri image of colors] -->
+			<!-- Explain barycentric coordinates in your own words and use an image to aid you in your explanation.
+	One idea is to use a svg file that plots a single triangle with one red, one green, and one blue vertex, which should produce a smoothly blended color triangle. -->
+			<!-- Show a png screenshot of svg/basic/test7.svg with default viewing parameters and sample rate 1. If you make any additional images with color gradients, include them. -->
 
-		<h2>(Optional) Task 7: Extra Credit - Draw Something Creative!</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+			<h2>Task 5: "Pixel sampling" for texture mapping</h2>
+			<!--Explain pixel sampling in your own words and describe how you implemented it to perform texture mapping. -->
+			<p>
+				In sample_nearest, we take the uv coordinates in [0, 1] and scale them to the texture's resolution based on the current mipmap level by multiplying the coordinates by the mip width or height subtracting 1.
+				We then use the round function to find the nearest texel to those coordinates, returning the texel's color for tx and ty.
+				<code>
+					int tx = round(uv[0] * (mip.width - 1));
+					int ty = round(uv[1] * (mip.height - 1));
+					return mip.get_texel(tx, ty);
+				</code>
+			</p>
+			<p>
+				In sample_bilinear, similar logic is applied to scale the uvs to the texture space but we don't only pick one texel.
+				After computing the four surrounding texels c00, c01, c10, and c11, we interpolate their values.
+				Then the interpolation weights are computed based on a fraction of the uv coordinates given.
+			</p>
+			<!-- Briefly discuss the two different pixel sampling methods, nearest and bilinear. -->
+			<p>The main difference between pixel sampling mode (psm) and level sampling mode (lsm) is that psm controls how to sample texels while lsm controls which minimap level is being used to sample.</p>
+			<!-- Check out the svg files in the svg/texmap/ directory. Use the pixel inspector to find a good example of where bilinear sampling clearly defeats nearest sampling.
+	Show and compare four png screenshots using nearest sampling at 1 sample per pixel, nearest sampling at 16 samples per pixel, bilinear sampling at 1 sample per pixel, and bilinear sampling at 16 samples per pixel. -->
+			<!-- Comment on the relative differences. Discuss when there will be a large difference between the two methods and why. -->
+			<p></p>
 
-		<h2>Additional Notes (please remove)</h2>
-		<ul>
-			<li>You can also add code if you'd like as so: <code>code code code</code></li>
-			<li>If you'd like to add math equations, 
-				<ul>
-					<li>You can write inline equations like so: \( a^2 + b^2 = c^2 \)</li>
-					<li>You can write display equations like so: \[ a^2 + b^2 = c^2 \]</li>
-				</ul>
-			</li>
-		</ul>
+			<h2>Task 6: "Level Sampling" with mipmaps for texture mapping</h2>
+			<!-- Explain level sampling in your own words and describe how you implemented it for texture mapping. -->
+			<p>Level sampling </p>
+			<!-- You can now adjust your sampling technique by selecting pixel sampling, level sampling, or the number of samples per pixel.
+	Describe the tradeoffs between speed, memory usage, and antialiasing power between the three various techniques. -->
+			<p></p>
+			<!-- Using a png file you find yourself, show us four versions of the image, using the combinations of L_ZERO and P_NEAREST,
+	L_ZERO and P_LINEAR, L_NEAREST and P_NEAREST, as well as L_NEAREST and P_LINEAR. To use your own png, make a copy of one of the existing svg files in svg/texmap/
+	(or create your own modelled after one of the provided svg files). Then, near the top of the file, change the texture filename to point to your own png.
+	From there, you can run ./draw and pass in that svg file to render it and then save a screenshot of your results.
+	Note: Choose a png that showcases the different sampling effects well. You may also want to zoom in/out, use the pixel inspector, etc. to demonstrate the differences. -->
+			<!--
+	<h2>(Optional) Task 7: Extra Credit - Draw Something Creative!</h2>
+
+	<h2>Additional Notes (please remove)</h2>
+	<ul>
+		<li>You can also add code if you'd like as so: <code>code code code</code></li>
+		<li>If you'd like to add math equations,
+			<ul>
+				<li>You can write inline equations like so: \( a^2 + b^2 = c^2 \)</li>
+				<li>You can write display equations like so: \[ a^2 + b^2 = c^2 \]</li>
+			</ul>
+		</li>
+	</ul>
+	-->
+
 		</div>
 	</body>
 </html>
